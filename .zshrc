@@ -1,9 +1,33 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-export GPG_TTY=$(tty)
+alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
+alias exo="exoframe"
+alias config="/usr/bin/git --git-dir=$HOME/.config.git/ --work-tree=$HOME"
+alias zshrc="vim ~/.zshrc; source ~/.zshrc"
 
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+function temp() {
+  DIR=$(mktemp -d)
+  echo "starting new zsh in $DIR"
+  (
+    cd $DIR
+    zsh
+  )
+  rm -rf $DIR
+}
+
+function send() {
+  LINK="$(bw send --file $1 | grep '^https://vault.heka.no/.*$')"
+  echo $LINK
+  echo $LINK | pbcopy
+}
+
+source .secrets
+
+# Load ssh keys using keychain
+ssh-add --apple-load-keychain > /dev/null
+
+export GPG_TTY=$(tty)
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
