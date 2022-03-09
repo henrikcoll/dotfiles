@@ -27,7 +27,7 @@ function send() {
 source .secrets
 
 # Load ssh keys using keychain
-ssh-add --apple-load-keychain > /dev/null
+ssh-add --apple-load-keychain -q
 
 export GPG_TTY=$(tty)
 
